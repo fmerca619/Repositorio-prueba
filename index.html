@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<!-- saved from url=(0063)file:///C:/Users/UNIVER/Downloads/repositorio_documentos_2.html -->
+<html lang="es"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Repositorio de Documentos</title>
+<link href="./index_files/css2" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F5F3EE;
+    --surface: #FFFFFF;
+    --ink: #1A1916;
+    --ink-muted: #7A7870;
+    --ink-faint: #C8C6C0;
+    --accent: #2D5BE3;
+    --border: rgba(26,25,22,0.1);
+    --radius: 12px;
+    --cat-hosp:  #EBF0FF; --cat-hosp-t:  #1A3DAD;
+    --cat-gast:  #E8F5EE; --cat-gast-t:  #0F5C32;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--ink); min-height: 100vh; padding-bottom: 60px; }
+
+  header { background: var(--ink); padding: 48px 40px 40px; }
+  .eyebrow { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: rgba(245,243,238,.45); margin-bottom: 12px; }
+  h1 { font-family: 'DM Serif Display', serif; font-size: clamp(30px,5vw,50px); font-weight: 400; line-height: 1.1; color: #F5F3EE; margin-bottom: 14px; }
+  h1 em { font-style: italic; color: rgba(245,243,238,.5); }
+  header p { font-size: 15px; color: rgba(245,243,238,.55); max-width: 480px; line-height: 1.6; }
+  .header-stat { margin-top: 28px; font-size: 13px; color: rgba(245,243,238,.45); }
+  .header-stat strong { font-size: 22px; font-weight: 500; color: #F5F3EE; margin-right: 6px; }
+
+  .controls { max-width: 960px; margin: 32px auto 0; padding: 0 24px; }
+  .search-wrap { position: relative; margin-bottom: 14px; }
+  .search-wrap svg { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px; stroke: var(--ink-muted); pointer-events: none; }
+  .search-wrap input { width: 100%; height: 46px; padding: 0 14px 0 42px; font-family: 'DM Sans',sans-serif; font-size: 15px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); color: var(--ink); outline: none; transition: border-color .15s; }
+  .search-wrap input::placeholder { color: var(--ink-faint); }
+  .search-wrap input:focus { border-color: var(--accent); }
+
+  .filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+  .fbtn { height: 32px; padding: 0 15px; font-family: 'DM Sans',sans-serif; font-size: 13px; border: 1px solid var(--border); border-radius: 100px; background: var(--surface); color: var(--ink-muted); cursor: pointer; transition: all .15s; white-space: nowrap; }
+  .fbtn:hover { border-color: var(--ink); color: var(--ink); }
+  .fbtn.active { background: var(--ink); color: #F5F3EE; border-color: var(--ink); }
+
+  .results-label { font-size: 13px; color: var(--ink-muted); margin-bottom: 12px; }
+
+  .grid { max-width: 960px; margin: 0 auto; padding: 0 24px; display: grid; grid-template-columns: repeat(auto-fill, minmax(280px,1fr)); gap: 12px; }
+
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; display: flex; flex-direction: column; gap: 12px; transition: transform .15s, box-shadow .15s, border-color .15s; animation: up .22s ease both; }
+  @keyframes up { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+  .card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(26,25,22,.08); border-color: rgba(26,25,22,.18); }
+
+  .card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
+  .wicon { width: 38px; height: 38px; border-radius: 8px; background: #2B579A; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .wicon span { font-size: 16px; font-weight: 700; color: #fff; font-family: sans-serif; }
+
+  .badge { font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: 100px; white-space: nowrap; }
+  .b-hosp { background: var(--cat-hosp); color: var(--cat-hosp-t); }
+  .b-gast { background: var(--cat-gast); color: var(--cat-gast-t); }
+
+  .doc-name { font-size: 14px; font-weight: 500; color: var(--ink); line-height: 1.4; }
+
+  .btn-dl { display: flex; align-items: center; justify-content: center; gap: 7px; height: 36px; width: 100%; font-family: 'DM Sans',sans-serif; font-size: 13px; font-weight: 500; border: 1px solid var(--border); border-radius: 8px; background: transparent; color: var(--ink); cursor: pointer; text-decoration: none; transition: all .15s; }
+  .btn-dl:hover { background: var(--ink); color: #F5F3EE; border-color: var(--ink); }
+  .btn-dl svg { width: 13px; height: 13px; flex-shrink: 0; }
+
+  .empty { max-width: 960px; margin: 0 auto; padding: 60px 24px; text-align: center; color: var(--ink-muted); font-size: 15px; display: none; }
+
+  footer { max-width: 960px; margin: 44px auto 0; padding: 20px 24px 0; border-top: 1px solid var(--border); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 6px; }
+  footer p { font-size: 12px; color: var(--ink-faint); }
+
+  @media (max-width: 600px) {
+    header { padding: 32px 20px 28px; }
+    .controls, .grid, footer { padding-left: 16px; padding-right: 16px; }
+    .grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <p class="eyebrow">Repositorio interno</p>
+  <h1>Documentos <em>&amp; recursos</em></h1>
+  <p>Encuentra y descarga los documentos oficiales. Usa el buscador o filtra por categoría.</p>
+  <div class="header-stat"><strong id="totalCount">45</strong> documentos disponibles</div>
+</header>
+
+<div class="controls">
+  <div class="search-wrap">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35"></path></svg>
+    <input type="text" id="searchInput" placeholder="Buscar por nombre de documento..." oninput="render()">
+  </div>
+  <div class="filters" id="filterBar"><button class="fbtn active">Todos</button><button class="fbtn">Hospitalidad</button><button class="fbtn">Gastronomía</button></div>
+  <p class="results-label" id="resultsLabel">45 documentos</p>
+</div>
+
+<div class="grid" id="docGrid">
+    <div class="card" style="animation-delay:0ms">
+      <div class="card-top">
+        <div class="wicon"><span>W</span></div>
+        <span class="badge b-hosp">Hospitalidad</span>
+      </div>
+      <div class="doc-name">Análisis de Datos en la Hospitalidad Turismo y Gastronomía</div>
+      <a class="btn-dl" href="file:///C:/Users/UNIVER/Downloads/An%C3%A1lisis_de_Datos_en_la_Hospitalidad_Turismo_y_Gastronom%C3%ADa.docx" download="Análisis de Datos en la Hospitalidad Turismo y Gastronomía.docx">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+        Descargar
+      </a>
+    </div>
+  
+    <div class="card" style="animation-delay:30ms">
+      <div class="card-top">
+        <div class="wicon"><span>W</span></div>
+        <span class="badge b-hosp">Hospitalidad</span>
+      </div>
+      <div class="doc-name">Comunicación y Servicio</div>
+      <a class="btn-dl" href="file:///C:/Users/UNIVER/Downloads/Comunicaci%C3%B3n_y_Servicio.docx" download="Comunicación y Servicio.docx">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+        Descargar
+      </a>
+    </div>
+  
+    <div class="card" style="animation-delay:60ms">
+      <div class="card-top">
+        <div class="wicon"><span>W</span></div>
+        <span class="badge b-hosp">Hospitalidad</span>
+      </div>
+      <div class="doc-name">Consultoría en Modelos de la Hospitalidad Gastronomía y Turismo</div>
+      <a class="btn-dl" href="file:///C:/Users/UNIVER/Downloads/Consultor%C3%ADa_en_Modelos_de_la_Hospitalidad_Gastronom%C3%ADa_y_Turismo.docx" download="Consultoría en Modelos de la Hospitalidad Gastronomía y Turismo.docx">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+        Descargar
+      </a>
+    </div>
+  
+    <div class="card" style="animation-delay:90ms">
+      <div class="card-top">
+        <div class="wicon"><span>W</span></div>
+        <span class="badge b-hosp">Hospitalidad</span>
+      </div>
+      <div class="doc-name">Contabilidad Básica</div>
+      <a class="btn-dl" href="file:///C:/Users/UNIVER/Downloads/Contabilidad_B%C3%A1sica.docx" download="Contabilidad Básica.docx">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+        Descargar
+      </a>
+    </div>
+  
+    <div class="card" style="animation-delay:120ms">
+      <div class="card-top">
+        <div class="wicon"><span>W</span></div>
+        <span class="badge b-hosp">Hospitalidad</span>
+      </div>
+      <div class="doc-name">Descubriendo el Mundo de la Hospitalidad</div>
+      <a class="btn-dl" href="file:///C:/Users/UNIVER/Downloads/Descubriendo_el_Mundo_de_la_Hospitalidad.docx" download="Descubriendo el Mundo de la Hospitalidad.docx">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+        Descargar
+      </a>
+    </div>
+  
+    <div class="card" style="animation-delay:150ms">
+      <div class="card-top">
+        <div class="wicon"><span>W</span></div>
+        <span class="badge b-hosp">Hospitalidad</span>
+      </div>
+      <div class="doc-name">Diseño de Experiencias Memorables</div>
+      <a class="btn-dl" href="file:///C:/Users/UNIVER/Downloads/Dise%C3%B1o_de_Experiencias_Memorables.docx" download="Diseño de Experiencias Memorables.docx">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+        Descargar
+      </a>
+    </div>
+  
+    <div class="card" style="animation-delay:180ms">
+      <div class="card-top">
+        <div class="wicon"><span>W</span></div>
+        <span class="badge b-hosp">Hospitalidad</span>
+      </div>
+      <div class="doc-name">Emprendimiento y Nuevos Modelos de Negocio</div>
+      <a class="btn-dl" href="file:///C:/Users/UNIVER/Downloads/Emprendimiento_y_Nuevos_Modelos_de_Negocio.docx" download="Emprendimiento y Nuevos Modelos de Negocio.docx">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+        Descargar
+      </a>
+    </div>
+  
+    <div class="card" style="animation-delay:210ms">
+      <div class="card-top">
+        <div class="wicon"><span>W</span></div>
+        <span class="badge b-hosp">Hospitalidad</span>
+      </div>
+      <div class="doc-name">Estrategias Avanzadas de Recepción</div>
+      <a class="btn-dl" href="file:///C:/Users/UNIVER/Downloads/Estrategias_Avanzadas_de_Recepci%C3%B3n.docx" download="Estrategias Avanzadas de Recepción.docx">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+        Descargar
+      </a>
+    </div>
+  
+    <div class="card" style="animation-delay:240ms">
+      <div class="card-top">
+        <div class="wicon"><span>W</span></div>
+        <span class="badge b-hosp">Hospitalidad</span>
+      </div>
+      <div class="doc-name">Experiencias en el Servicio y Atención al Cliente</div>
+      <a class="btn-dl" href="file:///C:/Users/UNIVER/Downloads/Experiencias_en_el_Servicio_y_Atenci%C3%B3n_al_Cliente.docx" download="Experiencias en el Servicio y Atención al Cliente.docx">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+        Descargar
+      </a>
+    </div>
+  
+    <div class="card" style="animation-delay:270ms">
+      <div class="card-top">
+        <div class="wicon"><span>W</span></div>
+        <span class="badge b-hosp">Hospitalidad</span>
+      </div>
+      <div class="doc-name">Experiencias Únicas en Turismo</div>
+      <a class="btn-dl" href="file:///C:/Users/UNIVER/Downloads/Experiencias_%C3%9Anicas_en_Turismo.docx" download="Experiencias Únicas en Turismo.docx">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+        Descargar
+      </a>
+    </div>
+  
+    <div class="card" style="animation-delay:300ms">
+      <div class="card-top">
+        <div class="wicon"><span>W</span></div>
+        <span class="badge b-hosp">Hospitalidad</span>
+      </div>
+      <div class="doc-name">Finanzas Estratégicas en la Hospitalidad</div>
+      <a class="btn-dl" href="file:///C:/Users/UNIVER/Downloads/Finanzas_Estrat%C3%A9gicas_en_la_Hospitalidad.docx" download="Finanzas Estratégicas en la Hospitalidad.docx">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+        Descargar
+      </a>
+    </div>
+  
+    <div class="card" style="animation-delay:330ms">
+      <div class="card-top">
+        <div class="wicon"><span>W</span></div>
+        <span class="badge b-hosp">Hospitalidad</span>
+      </div>
+      <div class="doc-name">Gerencia de Hoteles</div>
+      <a class="btn-dl" href="file:///C:/Users/UNIVER/Downloads/Gerencia_de_Hoteles.docx" download="Gerencia de Hoteles.docx">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+        Descargar
+      </a>
+    </div>
+  
+    <div class="card" style="animation-delay:360ms">
+      <div class="card-top">
+        <div class="wicon"><span>W</span></div>
+        <span class="badge b-hosp">Hospitalidad</span>
+      </div>
+      <div class="doc-name">Gestión Operativa de Ama de Llaves</div>
+      <a class="btn-dl" href="file:///C:/Users/UNIVER/Downloads/Gesti%C3%B3n_Operativa_de_Ama_de_Llaves.docx" download="Gestión Operativa de Ama de Llaves.docx">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+        Descargar
+      </a>
+    </div>
+  
+    <div class="card" style="animation-delay:390ms">
+      <div class="card-top">
+        <div class="wicon"><span>W</span></div>
+        <span class="badge b-hosp">Hospitalidad</span>
+      </div>
+      <div class="doc-name">Gestión de Empresas de Hospitalidad</div>
+      <a class="btn-dl" href="file:///C:/Users/UNIVER/Downloads/Gesti%C3%B3n_de_Empresas_de_Hospitalidad.docx" download="Gestión de Empresas de Hospitalidad.docx">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+        Descargar
+      </a>
+    </div>
+  
+    <div class="card" style="animation-delay:420ms">
+      <div class="card-top">
+        <div class="wicon"><span>W</span></div>
+        <span class="badge b-hosp">Hospitalidad</span>
+      </div>
+      <div class="doc-name">Gestión de Proyectos</div>
+      <a class="btn-dl" href="file:///C:/Users/UNIVER/Downloads/Gesti%C3%B3n_de_Proyectos.docx" download="Gestión de Proyectos.docx">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+        Descargar
+      </a>
+    </div>
+  
+    <div class="card" style="animation-delay:450ms">
+      <div class="card-top">
+        <div class="wicon"><span>W</span></div>
+        <span class="badge b-hosp">Hospitalidad</span>
+      </div>
+      <div class="doc-name">Herramientas Digitales para la Gestión de Hoteles</div>
+      <a class="btn-dl" href="file:///C:/Users/UNIVER/Downloads/Herramientas_Digitales_para_la_Gesti%C3%B3n_de_Hoteles.docx" download="Herramientas Digitales para la Gestión de Hoteles.docx">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+        Descargar
+      </a>
+    </div>
+  
+    <div class="card" style="animation-delay:480ms">
+      <div class="card-top">
+        <div class="wicon"><span>W</span></div>
+        <span class="badge b-hosp">Hospitalidad</span>
+      </div>
+      <div class="doc-name">Hotelería Verde</div>
+      <a class="btn-dl" href="file:///C:/Users/UNIVER/Downloads/Hoteler%C3%ADa_Verde.docx" download="Hotelería Verde.docx">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+        Descargar
+      </a>
+    </div>
+  
+    <div class="card" style="animation-delay:510ms">
+      <div class="card-top">
+        <div class="wicon"><span>W</span></div>
+        <span class="badge b-hosp">Hospitalidad</span>
+      </div>
+      <div class="doc-name">Innovación en Entretenimiento y Servicios</div>
+      <a class="btn-dl" href="file:///C:/Users/UNIVER/Downloads/Innovaci%C3%B3n_en_Entretenimiento_y_Servicios.docx" download="Innovación en Entretenimiento y Servicios.docx">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+        Descargar
+      </a>
+    </div>
+  
+    <div class="card" style="animation-delay:540ms">
+      <div class="card-top">
+        <div class="wicon"><span>W</span></div>
+        <span class="badge b-hosp">Hospitalidad</span>
+      </div>
+      <div class="doc-name">Innovación en Hospitalidad</div>
+      <a class="btn-dl" href="file:///C:/Users/UNIVER/Downloads/Innovaci%C3%B3n_en_Hospitalidad.docx" download="Innovación en Hospitalidad.docx">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+        Descargar
+      </a>
+    </div>
+  
+    <div class="card" style="animation-delay:570ms">
+      <div class="card-top">
+        <div class="wicon"><span>W</span></div>
+        <span class="badge b-hosp">Hospitalidad</span>
+      </div>
+      <div class="doc-name">Innovación y Desarrollo de Proyectos Hoteleros</div>
+      <a class="btn-dl" href="file:///C:/Users/UNIVER/Downloads/Innovaci%C3%B3n_y_Desarrollo_de_Proyectos_Hoteleros.docx" download="Innovación y Desarrollo de Proyectos Hoteleros.docx">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+        Descargar
+      </a>
+    </div>
+  
+    <div class="card" style="animation-delay:600ms">
+      <div class="card-top">
+        <div class="wicon"><span>W</span></div>
+        <span class="badge b-hosp">Hospitalidad</span>
+      </div>
+      <div class="doc-name">Inteligencia Artificial</div>
+      <a class="btn-dl" href="file:///C:/Users/UNIVER/Downloads/Inteligencia_Artificial.docx" download="Inteligencia Artificial.docx">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+        Descargar
+      </a>
+    </div>
+  
+    <div class="card" style="animation-delay:630ms">
+      <div class="card-top">
+        <div class="wicon"><span>W</span></div>
+        <span class="badge b-hosp">Hospitalidad</span>
+      </div>
+      <div class="doc-name">Inteligencia Emocional en el Entorno Profesional</div>
+      <a class="btn-dl" href="file:///C:/Users/UNIVER/Downloads/Inteligencia_Emocional_en_el_Entorno_Profesional.docx" download="Inteligencia Emocional en el Entorno Profesional.docx">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+        Descargar
+      </a>
+    </div>
+  
+    <div class="card" style="animation-delay:660ms">
+      <div class="card-top">
+        <div class="wicon"><span>W</span></div>
+        <span class="badge b-hosp">Hospitalidad</span>
+      </div>
+      <div class="doc-name">Interacción y Empatía en el Servicio</div>
+      <a class="btn-dl" href="file:///C:/Users/UNIVER/Downloads/Interacci%C3%B3n_y_Empat%C3%ADa_en_el_Servicio.docx" download="Interacción y Empatía en el Servicio.docx">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+        Descargar
+      </a>
+    </div>
+  
+    <div class="card" style="animation-delay:690ms">
+      <div class="card-top">
+        <div class="wicon"><span>W</span></div>
+        <span class="badge b-hosp">Hospitalidad</span>
+      </div>
+      <div class="doc-name">Introducción a la Administración</div>
+      <a class="btn-dl" href="file:///C:/Users/UNIVER/Downloads/Introducci%C3%B3n_a_la_Administraci%C3%B3n.docx" download="Introducción a la Administración.docx">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+        Descargar
+      </a>
+    </div>
+  
+    <div class="card" style="animation-delay:720ms">
+      <div class="card-top">
+        <div class="wicon"><span>W</span></div>
+        <span class="badge b-hosp">Hospitalidad</span>
+      </div>
+      <div class="doc-name">Liderazgo y Gestión de Equipos de Trabajo</div>
+      <a class="btn-dl" href="file:///C:/Users/UNIVER/Downloads/Liderazgo_y_Gesti%C3%B3n_de_Equipos_de_Trabajo.docx" download="Liderazgo y Gestión de Equipos de Trabajo.docx">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+        Descargar
+      </a>
+    </div>
+  
+    <div class="card" style="animation-delay:750ms">
+      <div class="card-top">
+        <div class="wicon"><span>W</span></div>
+        <span class="badge b-hosp">Hospitalidad</span>
+      </div>
+      <div class="doc-name">Macro Datos Aplicados en Hotelería</div>
+      <a class="btn-dl" href="file:///C:/Users/UNIVER/Downloads/Macro_Datos_Aplicados_en_Hoteler%C3%ADa.docx" download="Macro Datos Aplicados en Hotelería.docx">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+        Descargar
+      </a>
+    </div>
+  
+    <div class="card" style="animation-delay:780ms">
+      <div class="card-top">
+        <div class="wicon"><span>W</span></div>
+        <span class="badge b-hosp">Hospitalidad</span>
+      </div>
+      <div class="doc-name">Mercadotecnia Digital y Comercio Electrónico</div>
+      <a class="btn-dl" href="file:///C:/Users/UNIVER/Downloads/Mercadotecnia_Digital_y_Comercio_Electr%C3%B3nico.docx" download="Mercadotecnia Digital y Comercio Electrónico.docx">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+        Descargar
+      </a>
+    </div>
+  
+    <div class="card" style="animation-delay:810ms">
+      <div class="card-top">
+        <div class="wicon"><span>W</span></div>
+        <span class="badge b-hosp">Hospitalidad</span>
+      </div>
+      <div class="doc-name">Mercadotecnia Turística</div>
+      <a class="btn-dl" href="file:///C:/Users/UNIVER/Downloads/Mercadotecnia_Tur%C3%ADstica.docx" download="Mercadotecnia Turística.docx">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+        Descargar
+      </a>
+    </div>
+  
+    <div class="card" style="animation-delay:840ms">
+      <div class="card-top">
+        <div class="wicon"><span>W</span></div>
+        <span class="badge b-hosp">Hospitalidad</span>
+      </div>
+      <div class="doc-name">Nociones de Derecho Laboral y Mercantil</div>
+      <a class="btn-dl" href="file:///C:/Users/UNIVER/Downloads/Nociones_de_Derecho_Laboral_y_Mercantil.docx" download="Nociones de Derecho Laboral y Mercantil.docx">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+        Descargar
+      </a>
+    </div>
+  
+    <div class="card" style="animation-delay:870ms">
+      <div class="card-top">
+        <div class="wicon"><span>W</span></div>
+        <span class="badge b-hosp">Hospitalidad</span>
+      </div>
+      <div class="doc-name">Operaciones Básicas en AB alimentos y bebidas</div>
+      <a class="btn-dl" href="file:///C:/Users/UNIVER/Downloads/Operaciones_B%C3%A1sicas_en_AB_alimentos_y_bebidas.docx" download="Operaciones Básicas en AB alimentos y bebidas.docx">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+        Descargar
+      </a>
+    </div>
+  
+    <div class="card" style="animation-delay:900ms">
+      <div class="card-top">
+        <div class="wicon"><span>W</span></div>
+        <span class="badge b-hosp">Hospitalidad</span>
+      </div>
+      <div class="doc-name">Operación de Bares y Cultura del Vino</div>
+      <a class="btn-dl" href="file:///C:/Users/UNIVER/Downloads/Operaci%C3%B3n_de_Bares_y_Cultura_del_Vino.docx" download="Operación de Bares y Cultura del Vino.docx">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+        Descargar
+      </a>
+    </div>
+  
+    <div class="card" style="animation-delay:930ms">
+      <div class="card-top">
+        <div class="wicon"><span>W</span></div>
+        <span class="badge b-hosp">Hospitalidad</span>
+      </div>
+      <div class="doc-name">Operación de la Recepción Hotelera</div>
+      <a class="btn-dl" href="file:///C:/Users/UNIVER/Downloads/Operaci%C3%B3n_de_la_Recepci%C3%B3n_Hotelera.docx" download="Operación de la Recepción Hotelera.docx">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+        Descargar
+      </a>
+    </div>
+  
+    <div class="card" style="animation-delay:960ms">
+      <div class="card-top">
+        <div class="wicon"><span>W</span></div>
+        <span class="badge b-hosp">Hospitalidad</span>
+      </div>
+      <div class="doc-name">Optimización de Tarifas y Reservaciones</div>
+      <a class="btn-dl" href="file:///C:/Users/UNIVER/Downloads/Optimizaci%C3%B3n_de_Tarifas_y_Reservaciones.docx" download="Optimización de Tarifas y Reservaciones.docx">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+        Descargar
+      </a>
+    </div>
+  
+    <div class="card" style="animation-delay:990ms">
+      <div class="card-top">
+        <div class="wicon"><span>W</span></div>
+        <span class="badge b-hosp">Hospitalidad</span>
+      </div>
+      <div class="doc-name">Organización de Eventos y Banquetes</div>
+      <a class="btn-dl" href="file:///C:/Users/UNIVER/Downloads/Organizaci%C3%B3n_de_Eventos_y_Banquetes.docx" download="Organización de Eventos y Banquetes.docx">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+        Descargar
+      </a>
+    </div>
+  
+    <div class="card" style="animation-delay:1020ms">
+      <div class="card-top">
+        <div class="wicon"><span>W</span></div>
+        <span class="badge b-hosp">Hospitalidad</span>
+      </div>
+      <div class="doc-name">Proyectos de Inversión y Análisis de Riesgos</div>
+      <a class="btn-dl" href="file:///C:/Users/UNIVER/Downloads/Proyectos_de_Inversi%C3%B3n_y_An%C3%A1lisis_de_Riesgos.docx" download="Proyectos de Inversión y Análisis de Riesgos.docx">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+        Descargar
+      </a>
+    </div>
+  
+    <div class="card" style="animation-delay:1050ms">
+      <div class="card-top">
+        <div class="wicon"><span>W</span></div>
+        <span class="badge b-hosp">Hospitalidad</span>
+      </div>
+      <div class="doc-name">Redes Sociales</div>
+      <a class="btn-dl" href="file:///C:/Users/UNIVER/Downloads/Redes_Sociales.docx" download="Redes Sociales.docx">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+        Descargar
+      </a>
+    </div>
+  
+    <div class="card" style="animation-delay:1080ms">
+      <div class="card-top">
+        <div class="wicon"><span>W</span></div>
+        <span class="badge b-hosp">Hospitalidad</span>
+      </div>
+      <div class="doc-name">Relaciones Públicas</div>
+      <a class="btn-dl" href="file:///C:/Users/UNIVER/Downloads/Relaciones_P%C3%BAblicas.docx" download="Relaciones Públicas.docx">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+        Descargar
+      </a>
+    </div>
+  
+    <div class="card" style="animation-delay:1110ms">
+      <div class="card-top">
+        <div class="wicon"><span>W</span></div>
+        <span class="badge b-hosp">Hospitalidad</span>
+      </div>
+      <div class="doc-name">Sistemas de Calidad</div>
+      <a class="btn-dl" href="file:///C:/Users/UNIVER/Downloads/Sistemas_de_Calidad.docx" download="Sistemas de Calidad.docx">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+        Descargar
+      </a>
+    </div>
+  
+    <div class="card" style="animation-delay:1140ms">
+      <div class="card-top">
+        <div class="wicon"><span>W</span></div>
+        <span class="badge b-hosp">Hospitalidad</span>
+      </div>
+      <div class="doc-name">Talento Humano Aplicado al Servicio</div>
+      <a class="btn-dl" href="file:///C:/Users/UNIVER/Downloads/Talento_Humano_Aplicado_al_Servicio.docx" download="Talento Humano Aplicado al Servicio.docx">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+        Descargar
+      </a>
+    </div>
+  
+    <div class="card" style="animation-delay:1170ms">
+      <div class="card-top">
+        <div class="wicon"><span>W</span></div>
+        <span class="badge b-hosp">Hospitalidad</span>
+      </div>
+      <div class="doc-name">Tecnologías de la Información y la Comunicación</div>
+      <a class="btn-dl" href="file:///C:/Users/UNIVER/Downloads/Tecnolog%C3%ADas_de_la_Informaci%C3%B3n_y_la_Comunicaci%C3%B3n.docx" download="Tecnologías de la Información y la Comunicación.docx">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+        Descargar
+      </a>
+    </div>
+  
+    <div class="card" style="animation-delay:1200ms">
+      <div class="card-top">
+        <div class="wicon"><span>W</span></div>
+        <span class="badge b-hosp">Hospitalidad</span>
+      </div>
+      <div class="doc-name">Tecnologías en Alimentos y Bebidas</div>
+      <a class="btn-dl" href="file:///C:/Users/UNIVER/Downloads/Tecnolog%C3%ADas_en_Alimentos_y_Bebidas.docx" download="Tecnologías en Alimentos y Bebidas.docx">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+        Descargar
+      </a>
+    </div>
+  
+    <div class="card" style="animation-delay:1230ms">
+      <div class="card-top">
+        <div class="wicon"><span>W</span></div>
+        <span class="badge b-hosp">Hospitalidad</span>
+      </div>
+      <div class="doc-name">Tendencias Globales y Transformación Digital en Hoteles</div>
+      <a class="btn-dl" href="file:///C:/Users/UNIVER/Downloads/Tendencias_Globales_y_Transformaci%C3%B3n_Digital_en_Hoteles.docx" download="Tendencias Globales y Transformación Digital en Hoteles.docx">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+        Descargar
+      </a>
+    </div>
+  
+    <div class="card" style="animation-delay:1260ms">
+      <div class="card-top">
+        <div class="wicon"><span>W</span></div>
+        <span class="badge b-hosp">Hospitalidad</span>
+      </div>
+      <div class="doc-name">Tendencias Nacionales en la Industria Hotelera</div>
+      <a class="btn-dl" href="file:///C:/Users/UNIVER/Downloads/Tendencias_Nacionales_en_la_Industria_Hotelera.docx" download="Tendencias Nacionales en la Industria Hotelera.docx">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+        Descargar
+      </a>
+    </div>
+  
+    <div class="card" style="animation-delay:1290ms">
+      <div class="card-top">
+        <div class="wicon"><span>W</span></div>
+        <span class="badge b-hosp">Hospitalidad</span>
+      </div>
+      <div class="doc-name">Ventas Estratégicas para Hoteles</div>
+      <a class="btn-dl" href="file:///C:/Users/UNIVER/Downloads/Ventas_Estrat%C3%A9gicas_para_Hoteles.docx" download="Ventas Estratégicas para Hoteles.docx">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+        Descargar
+      </a>
+    </div>
+  
+    <div class="card" style="animation-delay:1320ms">
+      <div class="card-top">
+        <div class="wicon"><span>W</span></div>
+        <span class="badge b-hosp">Hospitalidad</span>
+      </div>
+      <div class="doc-name">Ética Profesional</div>
+      <a class="btn-dl" href="file:///C:/Users/UNIVER/Downloads/%C3%89tica_Profesional.docx" download="Ética Profesional.docx">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+        Descargar
+      </a>
+    </div>
+  </div>
+<div class="empty" id="emptyState" style="display: none;">No se encontraron documentos con esos criterios.</div>
+
+<footer>
+  <p>Repositorio interno</p>
+  <p id="footerDate">Última revisión: abril de 2026</p>
+</footer>
+
+<script>
+/* ============================================================
+   DOCUMENTOS — agrega o edita entradas aquí
+   url: nombre del archivo .docx (debe estar en la misma carpeta)
+   cat: "Hospitalidad" o "Gastronomía"
+============================================================ */
+const DOCS = [
+  { name: "Análisis de Datos en la Hospitalidad Turismo y Gastronomía", cat: "Hospitalidad", url: "Análisis_de_Datos_en_la_Hospitalidad_Turismo_y_Gastronomía.docx" },
+  { name: "Comunicación y Servicio", cat: "Hospitalidad", url: "Comunicación_y_Servicio.docx" },
+  { name: "Consultoría en Modelos de la Hospitalidad Gastronomía y Turismo", cat: "Hospitalidad", url: "Consultoría_en_Modelos_de_la_Hospitalidad_Gastronomía_y_Turismo.docx" },
+  { name: "Contabilidad Básica", cat: "Hospitalidad", url: "Contabilidad_Básica.docx" },
+  { name: "Descubriendo el Mundo de la Hospitalidad", cat: "Hospitalidad", url: "Descubriendo_el_Mundo_de_la_Hospitalidad.docx" },
+  { name: "Diseño de Experiencias Memorables", cat: "Hospitalidad", url: "Diseño_de_Experiencias_Memorables.docx" },
+  { name: "Emprendimiento y Nuevos Modelos de Negocio", cat: "Hospitalidad", url: "Emprendimiento_y_Nuevos_Modelos_de_Negocio.docx" },
+  { name: "Estrategias Avanzadas de Recepción", cat: "Hospitalidad", url: "Estrategias_Avanzadas_de_Recepción.docx" },
+  { name: "Experiencias en el Servicio y Atención al Cliente", cat: "Hospitalidad", url: "Experiencias_en_el_Servicio_y_Atención_al_Cliente.docx" },
+  { name: "Experiencias Únicas en Turismo", cat: "Hospitalidad", url: "Experiencias_Únicas_en_Turismo.docx" },
+  { name: "Finanzas Estratégicas en la Hospitalidad", cat: "Hospitalidad", url: "Finanzas_Estratégicas_en_la_Hospitalidad.docx" },
+  { name: "Gerencia de Hoteles", cat: "Hospitalidad", url: "Gerencia_de_Hoteles.docx" },
+  { name: "Gestión Operativa de Ama de Llaves", cat: "Hospitalidad", url: "Gestión_Operativa_de_Ama_de_Llaves.docx" },
+  { name: "Gestión de Empresas de Hospitalidad", cat: "Hospitalidad", url: "Gestión_de_Empresas_de_Hospitalidad.docx" },
+  { name: "Gestión de Proyectos", cat: "Hospitalidad", url: "Gestión_de_Proyectos.docx" },
+  { name: "Herramientas Digitales para la Gestión de Hoteles", cat: "Hospitalidad", url: "Herramientas_Digitales_para_la_Gestión_de_Hoteles.docx" },
+  { name: "Hotelería Verde", cat: "Hospitalidad", url: "Hotelería_Verde.docx" },
+  { name: "Innovación en Entretenimiento y Servicios", cat: "Hospitalidad", url: "Innovación_en_Entretenimiento_y_Servicios.docx" },
+  { name: "Innovación en Hospitalidad", cat: "Hospitalidad", url: "Innovación_en_Hospitalidad.docx" },
+  { name: "Innovación y Desarrollo de Proyectos Hoteleros", cat: "Hospitalidad", url: "Innovación_y_Desarrollo_de_Proyectos_Hoteleros.docx" },
+  { name: "Inteligencia Artificial", cat: "Hospitalidad", url: "Inteligencia_Artificial.docx" },
+  { name: "Inteligencia Emocional en el Entorno Profesional", cat: "Hospitalidad", url: "Inteligencia_Emocional_en_el_Entorno_Profesional.docx" },
+  { name: "Interacción y Empatía en el Servicio", cat: "Hospitalidad", url: "Interacción_y_Empatía_en_el_Servicio.docx" },
+  { name: "Introducción a la Administración", cat: "Hospitalidad", url: "Introducción_a_la_Administración.docx" },
+  { name: "Liderazgo y Gestión de Equipos de Trabajo", cat: "Hospitalidad", url: "Liderazgo_y_Gestión_de_Equipos_de_Trabajo.docx" },
+  { name: "Macro Datos Aplicados en Hotelería", cat: "Hospitalidad", url: "Macro_Datos_Aplicados_en_Hotelería.docx" },
+  { name: "Mercadotecnia Digital y Comercio Electrónico", cat: "Hospitalidad", url: "Mercadotecnia_Digital_y_Comercio_Electrónico.docx" },
+  { name: "Mercadotecnia Turística", cat: "Hospitalidad", url: "Mercadotecnia_Turística.docx" },
+  { name: "Nociones de Derecho Laboral y Mercantil", cat: "Hospitalidad", url: "Nociones_de_Derecho_Laboral_y_Mercantil.docx" },
+  { name: "Operaciones Básicas en AB alimentos y bebidas", cat: "Hospitalidad", url: "Operaciones_Básicas_en_AB_alimentos_y_bebidas.docx" },
+  { name: "Operación de Bares y Cultura del Vino", cat: "Hospitalidad", url: "Operación_de_Bares_y_Cultura_del_Vino.docx" },
+  { name: "Operación de la Recepción Hotelera", cat: "Hospitalidad", url: "Operación_de_la_Recepción_Hotelera.docx" },
+  { name: "Optimización de Tarifas y Reservaciones", cat: "Hospitalidad", url: "Optimización_de_Tarifas_y_Reservaciones.docx" },
+  { name: "Organización de Eventos y Banquetes", cat: "Hospitalidad", url: "Organización_de_Eventos_y_Banquetes.docx" },
+  { name: "Proyectos de Inversión y Análisis de Riesgos", cat: "Hospitalidad", url: "Proyectos_de_Inversión_y_Análisis_de_Riesgos.docx" },
+  { name: "Redes Sociales", cat: "Hospitalidad", url: "Redes_Sociales.docx" },
+  { name: "Relaciones Públicas", cat: "Hospitalidad", url: "Relaciones_Públicas.docx" },
+  { name: "Sistemas de Calidad", cat: "Hospitalidad", url: "Sistemas_de_Calidad.docx" },
+  { name: "Talento Humano Aplicado al Servicio", cat: "Hospitalidad", url: "Talento_Humano_Aplicado_al_Servicio.docx" },
+  { name: "Tecnologías de la Información y la Comunicación", cat: "Hospitalidad", url: "Tecnologías_de_la_Información_y_la_Comunicación.docx" },
+  { name: "Tecnologías en Alimentos y Bebidas", cat: "Hospitalidad", url: "Tecnologías_en_Alimentos_y_Bebidas.docx" },
+  { name: "Tendencias Globales y Transformación Digital en Hoteles", cat: "Hospitalidad", url: "Tendencias_Globales_y_Transformación_Digital_en_Hoteles.docx" },
+  { name: "Tendencias Nacionales en la Industria Hotelera", cat: "Hospitalidad", url: "Tendencias_Nacionales_en_la_Industria_Hotelera.docx" },
+  { name: "Ventas Estratégicas para Hoteles", cat: "Hospitalidad", url: "Ventas_Estratégicas_para_Hoteles.docx" },
+  { name: "Ética Profesional", cat: "Hospitalidad", url: "Ética_Profesional.docx" },
+  /* === GASTRONOMÍA — agrega tus archivos aquí ===
+  { name: "Nombre del documento", cat: "Gastronomía", url: "nombre_archivo.docx" },
+  ================================================ */
+];
+
+/* ============================================================
+   CATEGORÍAS — edita o agrega según necesites
+============================================================ */
+const CATEGORIAS = [
+  { label: "Hospitalidad", cls: "b-hosp" },
+  { label: "Gastronomía",  cls: "b-gast" },
+];
+
+/* no editar debajo */
+let activeCat = '';
+
+function getCls(cat) {
+  const c = CATEGORIAS.find(x => x.label === cat);
+  return c ? c.cls : 'b-hosp';
+}
+
+function buildFilters() {
+  const bar = document.getElementById('filterBar');
+  const all = document.createElement('button');
+  all.className = 'fbtn active'; all.textContent = 'Todos';
+  all.onclick = () => {
+    activeCat = '';
+    bar.querySelectorAll('.fbtn').forEach(b => b.classList.remove('active'));
+    all.classList.add('active'); render();
+  };
+  bar.appendChild(all);
+  CATEGORIAS.forEach(c => {
+    const btn = document.createElement('button');
+    btn.className = 'fbtn'; btn.textContent = c.label;
+    btn.onclick = () => {
+      activeCat = c.label;
+      bar.querySelectorAll('.fbtn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active'); render();
+    };
+    bar.appendChild(btn);
+  });
+}
+
+function render() {
+  const q = document.getElementById('searchInput').value.toLowerCase().trim();
+  const grid = document.getElementById('docGrid');
+  const empty = document.getElementById('emptyState');
+  const label = document.getElementById('resultsLabel');
+  document.getElementById('totalCount').textContent = DOCS.length;
+
+  const filtered = DOCS.filter(d =>
+    d.name.toLowerCase().includes(q) &&
+    (activeCat === '' || d.cat === activeCat)
+  );
+
+  label.textContent = filtered.length === DOCS.length
+    ? DOCS.length + ' documentos'
+    : filtered.length + ' de ' + DOCS.length + ' documentos';
+
+  if (filtered.length === 0) {
+    grid.innerHTML = ''; empty.style.display = 'block'; return;
+  }
+  empty.style.display = 'none';
+
+  grid.innerHTML = filtered.map((d, i) => `
+    <div class="card" style="animation-delay:${i * 30}ms">
+      <div class="card-top">
+        <div class="wicon"><span>W</span></div>
+        <span class="badge ${getCls(d.cat)}">${d.cat}</span>
+      </div>
+      <div class="doc-name">${d.name}</div>
+      <a class="btn-dl" href="${d.url}" download="${d.name}.docx">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+          <polyline points="7 10 12 15 17 10"/>
+          <line x1="12" y1="15" x2="12" y2="3"/>
+        </svg>
+        Descargar
+      </a>
+    </div>
+  `).join('');
+}
+
+document.getElementById('footerDate').textContent =
+  'Última revisión: ' + new Date().toLocaleDateString('es-MX', { month: 'long', year: 'numeric' });
+
+buildFilters();
+render();
+</script>
+
+
+</body></html>
